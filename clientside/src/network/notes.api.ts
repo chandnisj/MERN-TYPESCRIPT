@@ -16,6 +16,7 @@ export async function fetchNotes(): Promise<Note[]> {
     method: "GET",
   });
   return respone.json();
+  //console.log(respone);
 }
 
 export interface NoteInput {
@@ -32,4 +33,22 @@ export async function CreateNote(note: NoteInput): Promise<Note> {
     body: JSON.stringify(note),
   });
   return respone.json();
+}
+
+export async function UpdateNote(
+  noteId: string,
+  note: NoteInput
+): Promise<Note> {
+  const respone = await fetchData("/api/notes/" + noteId, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(note),
+  });
+  return respone.json();
+}
+
+export async function deleteNote(noteId: string) {
+  await fetchData("/api/notes/" + noteId, { method: "DELETE" });
 }
