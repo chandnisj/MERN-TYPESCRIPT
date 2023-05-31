@@ -1,6 +1,8 @@
 import { User } from "../Models/user";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import NavBarLoggedInView from "./NavBarLoggedInView";
+import NavBarLoggedOutView from "./NavBarLoggedOutView";
 interface NavBarProps {
   loggedInUser: User | null;
   onSignUpClicked: () => void;
@@ -17,18 +19,30 @@ const NavBar = ({
   return (
     <Navbar bg="info" variant="dark" expand="sm" sticky="top">
       <Container>
-        <Navbar.Brand >
+        <Navbar.Brand as={Link} to="/">
           Cool Notes App
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
           <Nav>
-            <Nav.Link >
+            <Nav.Link as={Link} to="/privacy" className="text-muted">
               Privacy
             </Nav.Link>
           </Nav>
-          
-        </Navbar.Collapse> 
+          <Nav className="ms-auto">
+            {loggedInUser ? (
+              <NavBarLoggedInView
+                user={loggedInUser}
+                onLogoutSuccessful={onLogoutSuccessful}
+              />
+            ) : (
+              <NavBarLoggedOutView
+                onLoginClicked={onLoginClicked}
+                onSignUpClicked={onSignUpClicked}
+              />
+            )}
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

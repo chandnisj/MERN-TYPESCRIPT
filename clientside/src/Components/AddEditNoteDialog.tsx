@@ -72,7 +72,7 @@ const AddEditNoteDialog = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button type="submit" form="addEditNoteForm" disabled={isSubmitting}>
+        <Button type="submit" form="addEditNoteForm" disabled={isSubmitting} variant='info'>
           Save
         </Button>
       </Modal.Footer>

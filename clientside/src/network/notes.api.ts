@@ -1,3 +1,4 @@
+import { ConflictError, unauthorizedError } from "../errors/http_errors";
 import { Note } from "../Models/note";
 import { User } from "../Models/user";
 
@@ -8,7 +9,18 @@ async function fetchData(input: RequestInfo, init?: RequestInit) {
   } else {
     const errorBody = await respone.json();
     const errorMessage = errorBody.error;
-    throw Error(errorMessage);
+    if (respone.status === 401) {
+      throw new unauthorizedError(errorMessage);
+    } else if (respone.status === 409) {
+      throw new ConflictError(errorMessage);
+    } else {
+      throw Error(
+        "Request failed with status:" +
+          respone.status +
+          " message: " +
+          errorMessage
+      );
+    }
   }
 }
 
